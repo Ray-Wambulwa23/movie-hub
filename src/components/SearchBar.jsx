@@ -1,7 +1,10 @@
 function SearchBar() {
   return (
     <div>
-      {/* Search bar component */}
+      <div className="search-container">
+        
+        
+      </div>
     </div>
   )
 }
