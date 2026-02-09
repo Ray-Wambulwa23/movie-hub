@@ -165,11 +165,12 @@
 .clear-button {
   background: hsl(357, 92%, 47%);
   border: none;
-  color: #888;
+  color: white;
   cursor: pointer;
   padding: 5px 10px;
   font-size: 1.2rem;
   transition: color 0.3s ease;
+  border-radius: 20px;
 
 }
 
