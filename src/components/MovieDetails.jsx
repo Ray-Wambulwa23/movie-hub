@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { getMovieDetails, getMovieCredits } from '../services/tmdbApi';
+import { getMovieDetails, getMovieCredits, getMovieVideos } from '../services/tmdbApi';
 
 function MovieDetails({ movieId, onClose }) {
   const [movie, setMovie] = useState(null);
   const [credits, setCredits] = useState(null);
+  const [videos, setVideos] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -16,13 +17,15 @@ function MovieDetails({ movieId, onClose }) {
     const fetchMovieData = async () => {
       try {
         setLoading(true);
-        const [movieData, creditsData] = await Promise.all([
+        const [movieData, creditsData, videosData] = await Promise.all([
           getMovieDetails(movieId),
-          getMovieCredits(movieId)
+          getMovieCredits(movieId),
+          getMovieVideos(movieId)
         ]);
         
         setMovie(movieData);
         setCredits(creditsData);
+        setVideos(videosData);
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch movie details');
@@ -55,6 +58,9 @@ function MovieDetails({ movieId, onClose }) {
 
   const director = credits?.crew?.find(person => person.job === 'Director');
   const mainCast = credits?.cast?.slice(0, 6) || [];
+  const trailer = videos?.results?.find(
+    video => video.type === 'Trailer' && video.site === 'YouTube'
+  );
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -82,6 +88,21 @@ function MovieDetails({ movieId, onClose }) {
               </div>
               {director && <p className="movie-director">Directed by {director.name}</p>}
               <p className="movie-overview">{movie.overview}</p>
+              
+              {trailer && (
+                <div className="trailer-section">
+                  <h3>Watch Trailer</h3>
+                  <div className="trailer-container">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${trailer.key}`}
+                      title="Movie Trailer"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

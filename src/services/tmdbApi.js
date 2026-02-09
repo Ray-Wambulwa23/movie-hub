@@ -33,3 +33,7 @@ export const getMovieDetails = (movieId) => {
 export const getMovieCredits = (movieId) => {
   return fetchFromTMDB(`/movie/${movieId}/credits`);
 };
+
+export const getMovieVideos = (movieId) => {
+  return fetchFromTMDB(`/movie/${movieId}/videos`);
+};
