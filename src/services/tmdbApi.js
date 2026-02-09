@@ -24,4 +24,12 @@ export const getPopularMovies = () => {
 
 export const getLatestMovies = () => {
     return fetchFromTMDB('/movie/now_playing');
-}
+};
+
+export const getMovieDetails = (movieId) => {
+  return fetchFromTMDB(`/movie/${movieId}`);
+};
+
+export const getMovieCredits = (movieId) => {
+  return fetchFromTMDB(`/movie/${movieId}/credits`);
+};

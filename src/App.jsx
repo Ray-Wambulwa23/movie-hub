@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { getPopularMovies, getLatestMovies } from './services/tmdbApi'
 import './App.css'
 import SearchBar from './components/SearchBar';
+import MovieDetails from './components/MovieDetails';
 
 
 
@@ -10,6 +11,7 @@ function App() {
   const [latestMovies, setLatestMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
 
   
   const getImageUrl = (imagePath) => {
@@ -42,14 +44,18 @@ function App() {
   return (
 
     <div className="App">
-      <h1>🎬 Movie Hub</h1>
+      <h1>🎬Ray Movie Hub</h1>
 
     <SearchBar/>
       
       <h2 className="section-title">Popular Movies</h2>
       <div className="movies-grid">
         {movies.map(movie => (
-          <div key={movie.id} className="movie-card">
+          <div 
+            key={movie.id} 
+            className="movie-card"
+            onClick={() => setSelectedMovieId(movie.id)}
+          >
             <img 
               src={getImageUrl(movie.poster_path)} 
               alt={movie.title}
@@ -65,7 +71,11 @@ function App() {
       <h2 className="section-title">Latest Movies</h2>
       <div className="movies-grid">
         {latestMovies.map(movie => (
-          <div key={movie.id} className="movie-card">
+          <div 
+            key={movie.id} 
+            className="movie-card"
+            onClick={() => setSelectedMovieId(movie.id)}
+          >
             <img 
               src={getImageUrl(movie.poster_path)} 
               alt={movie.title}
@@ -77,7 +87,15 @@ function App() {
           </div>
         ))}
       </div>
+
+      {selectedMovieId && (
+        <MovieDetails 
+          movieId={selectedMovieId} 
+          onClose={() => setSelectedMovieId(null)} 
+        />
+      )}
     </div>
+    
   )
 }
 

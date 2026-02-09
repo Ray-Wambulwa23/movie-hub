@@ -1,7 +1,9 @@
 function MovieCard() {
   return (
     <div>
-      {/* Movie card component */}
+     <div>
+      
+     </div>
     </div>
   )
 }
